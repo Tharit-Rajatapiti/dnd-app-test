@@ -1,0 +1,21 @@
+body {
+  margin: 5;
+  font-family: serif;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.abilityTable td, .abilityTable th {
+  padding-right: 5px;
+}
+
+.abilityInput {
+  width: 50px;
+}
+
+.starterTable td {
+  width: 100px;
+  max-height: 20px;
+  padding-bottom: 10px;
+  padding-right: 20px;
+}
