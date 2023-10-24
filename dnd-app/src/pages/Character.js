@@ -1,28 +1,31 @@
 import React from "react";
+
+// import logo from './logo.svg';
+import '../App.css';
+
 import AbilityTable from "../AppAbilityTable";
 import StarterTable from "../AppStarterTable";
 import StatsInformation from '../AppStatsInformation';
 
+// Debug button (temporary)
+export function debug() {
+	console.log(localStorage.getItem("abilityValues"))
+}
 
 function CharacterPage() {
-    return (
-        <>
+  	return (
+		<>
+            <h1>dungeon and dragon (singular)</h1>
+            <StarterTable />
             <table>
                 <tr>
-                    <h1>dungeon and dragon (singular)</h1>
-                </tr>
-                <tr>
-                    <StarterTable />
-                </tr>
-                <tr>
-                    <td>
-                        <img src="https://images.ctfassets.net/swt2dsco9mfe/4Z0hz8blpuUE5vWv6eGc14/4bac7dadc60e92678301a87f81778316/dnd_chsheet_sorcerer.jpg?w=365&h=196&fit=thumb&fm=avif"/>
-                    </td>
-                    <td>Dragonborn Sorcerer</td>
+                    <td><AbilityTable /></td>
+                    <td><StatsInformation /></td>
                 </tr>
             </table>
-        </>
-    )
+            <button onClick={debug}>DEBUG</button>
+		</>
+	)
 }
 
 export default CharacterPage;

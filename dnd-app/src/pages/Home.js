@@ -3,25 +3,15 @@ import React from "react";
 // import logo from './logo.svg';
 import '../App.css';
 
-import AbilityTable from "../AppAbilityTable";
-import StarterTable from "../AppStarterTable";
-import StatsInformation from '../AppStatsInformation';
+import AppNavigationBar from "../AppNavigationBar";
 
-// Debug button (temporary)
-export function debug() {
-	console.log(localStorage.getItem("abilityValues"))
+export function HomePage() {
+    return (
+        <>
+            <AppNavigationBar />
+            <h1>Home</h1>
+        </>
+    )
 }
 
-function Home() {
-  	return (
-		<>
-                <h1>dungeon and dragon (singular)</h1>
-                <StarterTable />
-                <AbilityTable />
-                <StatsInformation />
-                <button onClick={debug}>DEBUG</button>
-		</>
-	)
-}
-
-export default Home;
+export default HomePage;
