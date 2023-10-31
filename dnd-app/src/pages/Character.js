@@ -1,28 +1,25 @@
 import React from "react";
+import { useState } from "react";
 
-// import logo from './logo.svg';
 import '../App.css';
 
-import AbilityTable from "../AppAbilityTable";
-import StarterTable from "../AppStarterTable";
-import StatsInformation from '../AppStatsInformation';
-
-// Debug button (temporary)
-export function debug() {
-	console.log(localStorage.getItem("abilityValues"))
-}
+import {AbilityTable} from "../CharacterAbilityTable";
+import {StarterTable} from "../CharacterStarterTable";
+// import StatsInformation from '../AppStatsInformation';
+import AppNavigationBar from "../AppNavigationBar";
 
 function CharacterPage() {
+    const [characterClass, setCharacterClass] = useState();
+
+    function debug() {
+        console.log(localStorage.getItem("abilityValues"))
+    }
+
   	return (
 		<>
-            <h1>dungeon and dragon (singular)</h1>
-            <StarterTable />
-            <table>
-                <tr>
-                    <td><AbilityTable /></td>
-                    <td><StatsInformation /></td>
-                </tr>
-            </table>
+            <AppNavigationBar />
+            <StarterTable setCharacterClass={setCharacterClass}/>
+            <AbilityTable characterClass={characterClass}/>
             <button onClick={debug}>DEBUG</button>
 		</>
 	)

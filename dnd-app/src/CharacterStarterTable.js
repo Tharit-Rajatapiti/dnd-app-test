@@ -1,4 +1,52 @@
-export default function StarterTable() {
+import { useEffect, useState } from "react";
+
+export function StarterTable() {
+    const [characterStats, setCharacterStats] = useState({});
+
+    // Functions to save each form input
+    const saveClass = (event) => {
+        characterStats.class = event.target.value;
+        localStorage.setItem("characterStats", JSON.stringify(characterStats));
+    }
+    
+    const saveBackground = (event) => {
+        characterStats.background = event.target.value;
+        localStorage.setItem("characterStats", JSON.stringify(characterStats));
+    }
+    
+    const saveRace = (event) => {
+        characterStats.race = event.target.value;
+        localStorage.setItem("characterStats", JSON.stringify(characterStats));
+    }
+    
+    const saveAlignment = (event) => {
+        characterStats.alignment = event.target.value;
+        localStorage.setItem("characterStats", JSON.stringify(characterStats));
+    }
+    
+    const saveCharacterName = (event) => {
+        characterStats.characterName = event.target.value;
+        localStorage.setItem("characterStats", JSON.stringify(characterStats));
+    }
+    
+    const savePlayerName = (event) => {
+        characterStats.playerName = event.target.value;
+        localStorage.setItem("characterStats", JSON.stringify(characterStats));
+    }
+
+    // Takes the saved stats and inputs them
+    useEffect(() => {
+        const loadedCharacterStats = JSON.parse(localStorage.getItem("characterStats"));
+        setCharacterStats(loadedCharacterStats);
+
+        document.getElementById("classOptions").value = loadedCharacterStats.class;
+        document.getElementById("backgroundOptions").value = loadedCharacterStats.background;
+        document.getElementById("characterNameInput").value = loadedCharacterStats.characterName;
+        document.getElementById("raceOptions").value = loadedCharacterStats.race;
+        document.getElementById("alignmentOptions").value = loadedCharacterStats.alignment;
+        document.getElementById("playerNameInput").value = loadedCharacterStats.playerName;
+    }, []);
+
     return (
         <div id="starterDiv" class="tabContent">
             <table className="starterTable">
@@ -9,7 +57,7 @@ export default function StarterTable() {
                     <div id="classDiv">
                     <form id="classForm">
                         Class: <br />
-                        <select id="classOptions">
+                        <select id="classOptions" onChange={saveClass}>
                         <option value="" />
                         <option value="barbarian">Barbarian</option>
                         <option value="bard">Bard</option>
@@ -32,7 +80,7 @@ export default function StarterTable() {
                     <div id="backgroundDiv">
                     <form id="backgroundForm">
                         Background: <br />
-                        <select id="backgroundOptions">
+                        <select id="backgroundOptions" onChange={saveBackground}>
                         <option value="" />
                         <option value="acolyte">Acolyte</option>
                         <option value="charlatan">Charlatan</option>
@@ -61,7 +109,7 @@ export default function StarterTable() {
                     <div id="characterNameDiv">
                         Character Name:
                         <br />
-                        <input type="text"></input>
+                        <input id="characterNameInput" type="text" onInput={saveCharacterName}></input>
                     </div>
                 </td>
                 </tr>
@@ -71,7 +119,7 @@ export default function StarterTable() {
                     <div id="raceDiv">
                     <form id="raceForm">
                         Race: <br />
-                        <select id="raceOptions">
+                        <select id="raceOptions" onChange={saveRace}>
                         <option value="" />
                         <option value="dragonborn">Dragonborn</option>
                         <option value="dwarf">Dwarf</option>
@@ -91,7 +139,7 @@ export default function StarterTable() {
                     <div id="alignmentDiv">
                     <form id="alignmentForm">
                         Alignment: <br />
-                        <select id="alignmentOptions">
+                        <select id="alignmentOptions" onChange={saveAlignment}>
                         <option value="" />
                         <option value="lawfulGood">Lawful Good</option>
                         <option value="lawfulNeutral">Lawful Neutral</option>
@@ -111,7 +159,7 @@ export default function StarterTable() {
                     <div id="playerNameDiv">
                         Player Name:
                         <br />
-                        <input type="text"></input>
+                        <input id="playerNameInput" type="text" onInput={savePlayerName}></input>
                     </div>
                 </td>
                 </tr>

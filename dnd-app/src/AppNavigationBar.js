@@ -1,7 +1,4 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import { Container, Nav, Navbar } from "react-bootstrap";
 
 function AppNavigationBar() {
     return (
@@ -11,9 +8,14 @@ function AppNavigationBar() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav" />
                     <Nav>
-                        <Nav.Link>Home</Nav.Link>
+                        <Nav.Link href="/home">Home</Nav.Link>
+                        <Nav.Link href="/characters">Characters</Nav.Link>
+                        <Nav.Link href="/skills">Skills</Nav.Link>
+                        <Nav.Link href="/spells">Spells</Nav.Link>
                     </Nav>
             </Container>
         </Navbar>
     )
 }
+
+export default AppNavigationBar;

@@ -1,12 +1,11 @@
 body {
   margin: 5;
   font-family: serif;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding: 2%;
 }
 
 .abilityTable td, .abilityTable th {
-  padding-right: 5px;
+  padding-right: 5%;
 }
 
 .abilityInput {

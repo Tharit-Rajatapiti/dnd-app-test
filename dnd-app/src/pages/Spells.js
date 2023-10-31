@@ -4,13 +4,13 @@ import '../App.css';
 
 import AppNavigationBar from "../AppNavigationBar";
 
-function HomePage() {
+function SpellsPage() {
     return (
         <>
             <AppNavigationBar />
-            <h1>Home</h1>
+            <h1>Spells</h1>
         </>
     )
 }
 
-export default HomePage;
+export default SpellsPage;
