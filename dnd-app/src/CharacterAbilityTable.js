@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 // Sets default ability values and saves them to local storage
 let abilityValueList = {
@@ -22,19 +22,21 @@ const abilityList = [
 
 localStorage.setItem("abilityValues", JSON.stringify(abilityValueList))
 
-const AbilityInput = ({ abilityAbbreviation, abilityName }) => {
-    // Allows the value of the input box to be tracked and changed
-    const [abilityValue, setAbilityValue] = useState(10);
-
-    // Takes abilityValue and calculates abilityBonus
-    const getAbilityBonus = (abilityValue) => {
-        let abilityBonus = Math.floor(((abilityValue - 10) / 2));
-        if (abilityBonus >= 0) {
-            abilityBonus = "+" + abilityBonus
-        };
-        return [ "(", abilityBonus, ")" ];
+// Takes abilityValue and calculates abilityBonus
+const getAbilityBonus = (abilityValue) => {
+    let abilityBonus = Math.floor(((abilityValue - 10) / 2));
+    if (abilityBonus >= 0) {
+        abilityBonus = "+" + abilityBonus
     };
-    
+    return [ "(", abilityBonus, ")" ];
+};
+
+let parsedAbilityValues = JSON.parse(localStorage.getItem("abilityValues"));
+
+export const AbilityInput = ({abilityAbbreviation, abilityName}) => {
+    // Allows the value of the input box to be tracked and changed
+    const [abilityValue, setAbilityValue] = useState(parsedAbilityValues[abilityName]);
+
     const changeAbilityValue = (event) => {
         // Changes the visible text ability value
         setAbilityValue(event.target.value)
@@ -42,9 +44,8 @@ const AbilityInput = ({ abilityAbbreviation, abilityName }) => {
         abilityValueList[abilityName] = event.target.value;
         // Saves abilityValueList to local storage
         localStorage.setItem("abilityValues", JSON.stringify(abilityValueList))
-    };
-    
-    // Component for the ability input boxes
+    };    
+
     return (
         <tr>
         <td>
@@ -71,7 +72,7 @@ const AbilityInput = ({ abilityAbbreviation, abilityName }) => {
 };
  
 // Table which displays the ability input boxes
-export const AbilityTable = ({characterClass}) => {
+export default function AbilityTable({characterClass}) {
     return (
         <div id="abilityDiv" class="tabContent">
             <div>{characterClass}</div>
@@ -93,11 +94,3 @@ export const AbilityTable = ({characterClass}) => {
         </div>
     )
 };
-
-const AbilityTableSave = () => {
-    const [abilityValues, setAbilityValuesList] = useState({});
-
-    const loadedAbilityValueList = JSON.parse(localStorage.getItem("abilityValues"));
-    
-    document.getElementById("Dexterity").value = loadedAbilityValueList.Dexterity;
-}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export function StarterTable() {
+export default function StarterTable() {
     const [characterStats, setCharacterStats] = useState({});
 
     // Functions to save each form input

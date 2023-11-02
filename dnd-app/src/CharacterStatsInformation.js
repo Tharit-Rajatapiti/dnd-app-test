@@ -1,5 +1,8 @@
 export default function StatsInformation() {
     return (
-        "test"
+        <>
+            <b>Class:</b><br/>
+            <i>No class currently selected.</i>
+        </>
     );
 };
