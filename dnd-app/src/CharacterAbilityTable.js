@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Sets default ability values and saves them to local storage
-let abilityValueList = {
+let defaultAbilityValueList = {
     Strength: "10",
     Dexterity: "10",
     Constitution: "10",
@@ -20,30 +20,32 @@ const abilityList = [
     { abilityAbbreviation: "CHA", abilityName: "Charisma" }
 ]
 
-localStorage.setItem("abilityValues", JSON.stringify(abilityValueList))
+//let parsedAbilityValues = JSON.parse(localStorage.getItem("abilityValues"));
 
-// Takes abilityValue and calculates abilityBonus
-const getAbilityBonus = (abilityValue) => {
-    let abilityBonus = Math.floor(((abilityValue - 10) / 2));
-    if (abilityBonus >= 0) {
-        abilityBonus = "+" + abilityBonus
-    };
-    return [ "(", abilityBonus, ")" ];
-};
-
-let parsedAbilityValues = JSON.parse(localStorage.getItem("abilityValues"));
-
-export const AbilityInput = ({abilityAbbreviation, abilityName}) => {
+export const AbilityInput = ({abilityValues, abilityAbbreviation, abilityName}) => {
     // Allows the value of the input box to be tracked and changed
-    const [abilityValue, setAbilityValue] = useState(parsedAbilityValues[abilityName]);
+    const [abilityValue, setAbilityValue] = useState(abilityValues[abilityName]);
+
+    // Takes abilityValue and calculates abilityBonus
+    const getAbilityBonus = (abilityValue) => {
+        let abilityBonus = Math.floor(((abilityValue - 10) / 2));
+        if (abilityBonus >= 0) {
+            abilityBonus = "+" + abilityBonus
+        };
+        return [ "(", abilityBonus, ")" ];
+    };
 
     const changeAbilityValue = (event) => {
         // Changes the visible text ability value
-        setAbilityValue(event.target.value)
-        // Changes the ability value in 
-        abilityValueList[abilityName] = event.target.value;
+        setAbilityValue(event.target.value);
+    //     // Changes the ability value in 
+    //     abilityValueList[abilityName] = event.target.value;
         // Saves abilityValueList to local storage
-        localStorage.setItem("abilityValues", JSON.stringify(abilityValueList))
+        const newAbilityValues = {
+            ...abilityValues,
+            abilityName: event.target.value
+        };
+        localStorage.setItem("abilityValues", JSON.stringify(newAbilityValues))
     };    
 
     return (
@@ -73,6 +75,15 @@ export const AbilityInput = ({abilityAbbreviation, abilityName}) => {
  
 // Table which displays the ability input boxes
 export default function AbilityTable({characterClass}) {
+    const [abilityValues, setAbilityValues] = useState(defaultAbilityValueList);
+
+    useEffect(() => {
+        const currentAbilityValues = localStorage.getItem("abilityValues");
+        if (currentAbilityValues != null) {
+            setAbilityValues(JSON.parse(currentAbilityValues));
+        }
+    }, []);
+
     return (
         <div id="abilityDiv" class="tabContent">
             <div>{characterClass}</div>
@@ -85,6 +96,7 @@ export default function AbilityTable({characterClass}) {
                                 (<AbilityInput 
                                 abilityAbbreviation={ability.abilityAbbreviation}
                                 abilityName={ability.abilityName}
+                                abilityValues={abilityValues}
                                 />)
                            )}
                         </td>
