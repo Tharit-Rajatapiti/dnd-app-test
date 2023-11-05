@@ -38,14 +38,10 @@ export const AbilityInput = ({abilityValues, abilityAbbreviation, abilityName}) 
     const changeAbilityValue = (event) => {
         // Changes the visible text ability value
         setAbilityValue(event.target.value);
-    //     // Changes the ability value in 
-    //     abilityValueList[abilityName] = event.target.value;
+        // Changes the ability value in 
+        abilityValues[abilityName] = event.target.value;
         // Saves abilityValueList to local storage
-        const newAbilityValues = {
-            ...abilityValues,
-            abilityName: event.target.value
-        };
-        localStorage.setItem("abilityValues", JSON.stringify(newAbilityValues))
+        localStorage.setItem("abilityValues", JSON.stringify(abilityValues))
     };    
 
     return (
@@ -75,14 +71,17 @@ export const AbilityInput = ({abilityValues, abilityAbbreviation, abilityName}) 
  
 // Table which displays the ability input boxes
 export default function AbilityTable({characterClass}) {
-    const [abilityValues, setAbilityValues] = useState(defaultAbilityValueList);
-
-    useEffect(() => {
+    const loadAbilityValues = () => {
         const currentAbilityValues = localStorage.getItem("abilityValues");
         if (currentAbilityValues != null) {
-            setAbilityValues(JSON.parse(currentAbilityValues));
+            return JSON.parse(currentAbilityValues);
         }
-    }, []);
+        else {
+            return defaultAbilityValueList;
+        }
+    }
+
+    const [abilityValues, setAbilityValues] = useState(() => loadAbilityValues());
 
     return (
         <div id="abilityDiv" class="tabContent">
@@ -93,7 +92,7 @@ export default function AbilityTable({characterClass}) {
                         {/* Maps the values in abilityList to the abilityInput component */}
                         <td>
                            {abilityList.map((ability) => 
-                                (<AbilityInput 
+                                (<AbilityInput
                                 abilityAbbreviation={ability.abilityAbbreviation}
                                 abilityName={ability.abilityName}
                                 abilityValues={abilityValues}

@@ -1,5 +1,14 @@
 import { useEffect, useState } from "react";
 
+const defaultCharacterStats = {
+    class: "",
+    background: "",
+    race: "",
+    alignment: "",
+    characterName: "",
+    playerName: ""
+};
+
 export default function StarterTable() {
     const [characterStats, setCharacterStats] = useState({});
 
@@ -37,14 +46,20 @@ export default function StarterTable() {
     // Takes the saved stats and inputs them
     useEffect(() => {
         const loadedCharacterStats = JSON.parse(localStorage.getItem("characterStats"));
-        setCharacterStats(loadedCharacterStats);
+        if (loadedCharacterStats != null) {
+            setCharacterStats(loadedCharacterStats);
 
-        document.getElementById("classOptions").value = loadedCharacterStats.class;
-        document.getElementById("backgroundOptions").value = loadedCharacterStats.background;
-        document.getElementById("characterNameInput").value = loadedCharacterStats.characterName;
-        document.getElementById("raceOptions").value = loadedCharacterStats.race;
-        document.getElementById("alignmentOptions").value = loadedCharacterStats.alignment;
-        document.getElementById("playerNameInput").value = loadedCharacterStats.playerName;
+            document.getElementById("classOptions").value = loadedCharacterStats.class;
+            document.getElementById("backgroundOptions").value = loadedCharacterStats.background;
+            document.getElementById("characterNameInput").value = loadedCharacterStats.characterName;
+            document.getElementById("raceOptions").value = loadedCharacterStats.race;
+            document.getElementById("alignmentOptions").value = loadedCharacterStats.alignment;
+            document.getElementById("playerNameInput").value = loadedCharacterStats.playerName;
+        }
+        else {
+            setCharacterStats(defaultCharacterStats);
+            localStorage.setItem("characterStats", JSON.stringify(defaultCharacterStats));
+        }
     }, []);
 
     return (
