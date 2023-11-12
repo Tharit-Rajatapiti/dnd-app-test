@@ -1,4 +1,5 @@
 import { Container, Nav, Navbar } from "react-bootstrap";
+import {Link} from "react-router-dom";
 
 function AppNavigationBar() {
     return (
@@ -8,9 +9,15 @@ function AppNavigationBar() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav" />
                     <Nav>
-                        <Nav.Link href="/home">Home</Nav.Link>
-                        <Nav.Link href="/characters">Characters</Nav.Link>
-                        <Nav.Link href="/skills">Skills</Nav.Link>
+                        <Link to="/home" className="nav-link">
+                            Home
+                        </Link>
+                        <Link to="/characters" className="nav-link">
+                            Characters
+                        </Link>
+                        <Link to="/skills" className="nav-link">
+                            Skills
+                        </Link>
                         <Nav.Link href="/spells">Spells</Nav.Link>
                     </Nav>
             </Container>

@@ -1,65 +1,43 @@
 import { useEffect, useState } from "react";
-
-const defaultCharacterStats = {
-    class: "",
-    background: "",
-    race: "",
-    alignment: "",
-    characterName: "",
-    playerName: ""
-};
+import {characterGlobalState} from "./states/CharacterState";
+import {useRecoilState} from "recoil";
 
 export default function StarterTable() {
-    const [characterStats, setCharacterStats] = useState({});
+    const [characterGlobal, setCharacterGlobal] = useRecoilState(characterGlobalState);
 
     // Functions to save each form input
     const saveClass = (event) => {
-        characterStats.class = event.target.value;
-        localStorage.setItem("characterStats", JSON.stringify(characterStats));
+        characterGlobal.class = event.target.value; 
     }
     
     const saveBackground = (event) => {
-        characterStats.background = event.target.value;
-        localStorage.setItem("characterStats", JSON.stringify(characterStats));
+        characterGlobal.background = event.target.value;
     }
     
     const saveRace = (event) => {
-        characterStats.race = event.target.value;
-        localStorage.setItem("characterStats", JSON.stringify(characterStats));
+        characterGlobal.race = event.target.value;
     }
     
     const saveAlignment = (event) => {
-        characterStats.alignment = event.target.value;
-        localStorage.setItem("characterStats", JSON.stringify(characterStats));
+        characterGlobal.alignment = event.target.value;
     }
     
     const saveCharacterName = (event) => {
-        characterStats.characterName = event.target.value;
-        localStorage.setItem("characterStats", JSON.stringify(characterStats));
+        characterGlobal.characterName = event.target.value;
     }
     
     const savePlayerName = (event) => {
-        characterStats.playerName = event.target.value;
-        localStorage.setItem("characterStats", JSON.stringify(characterStats));
+        characterGlobal.playerName = event.target.value;
     }
 
     // Takes the saved stats and inputs them
     useEffect(() => {
-        const loadedCharacterStats = JSON.parse(localStorage.getItem("characterStats"));
-        if (loadedCharacterStats != null) {
-            setCharacterStats(loadedCharacterStats);
-
-            document.getElementById("classOptions").value = loadedCharacterStats.class;
-            document.getElementById("backgroundOptions").value = loadedCharacterStats.background;
-            document.getElementById("characterNameInput").value = loadedCharacterStats.characterName;
-            document.getElementById("raceOptions").value = loadedCharacterStats.race;
-            document.getElementById("alignmentOptions").value = loadedCharacterStats.alignment;
-            document.getElementById("playerNameInput").value = loadedCharacterStats.playerName;
-        }
-        else {
-            setCharacterStats(defaultCharacterStats);
-            localStorage.setItem("characterStats", JSON.stringify(defaultCharacterStats));
-        }
+        document.getElementById("classOptions").value = characterGlobal.class;
+        document.getElementById("backgroundOptions").value = characterGlobal.background;
+        document.getElementById("characterNameInput").value = characterGlobal.characterName;
+        document.getElementById("raceOptions").value = characterGlobal.race;
+        document.getElementById("alignmentOptions").value = characterGlobal.alignment;
+        document.getElementById("playerNameInput").value = characterGlobal.playerName;
     }, []);
 
     return (
