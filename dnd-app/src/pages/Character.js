@@ -1,7 +1,5 @@
 import React from "react";
-import { useState } from "react";
-import {characterGlobalState} from "../states/CharacterState";
-import {useRecoilState} from "recoil";
+// import { useState } from "react";
 
 import '../App.css';
 
@@ -11,10 +9,10 @@ import StatsInformation from '../CharacterStatsInformation';
 import AppNavigationBar from "../AppNavigationBar";
 
 function CharacterPage() {
-    const [characterGlobal, setCharacterGlobal] = useRecoilState(characterGlobalState);
 
     function debug() {
-        console.log(characterGlobal)
+        let itemExists = JSON.parse(localStorage.getItem("abilityValues"));
+        console.log(itemExists.Dexterity)
     }
 
   	return (

@@ -1,43 +1,50 @@
 import { useEffect, useState } from "react";
-import {characterGlobalState} from "./states/CharacterState";
-import {useRecoilState} from "recoil";
 
 export default function StarterTable() {
-    const [characterGlobal, setCharacterGlobal] = useRecoilState(characterGlobalState);
+    const [characterStats, setCharacterStats] = useState({});
 
     // Functions to save each form input
     const saveClass = (event) => {
-        characterGlobal.class = event.target.value; 
+        characterStats.class = event.target.value;
+        localStorage.setItem("characterStats", JSON.stringify(characterStats));
     }
     
     const saveBackground = (event) => {
-        characterGlobal.background = event.target.value;
+        characterStats.background = event.target.value;
+        localStorage.setItem("characterStats", JSON.stringify(characterStats));
     }
     
     const saveRace = (event) => {
-        characterGlobal.race = event.target.value;
+        characterStats.race = event.target.value;
+        localStorage.setItem("characterStats", JSON.stringify(characterStats));
     }
     
     const saveAlignment = (event) => {
-        characterGlobal.alignment = event.target.value;
+        characterStats.alignment = event.target.value;
+        localStorage.setItem("characterStats", JSON.stringify(characterStats));
     }
     
     const saveCharacterName = (event) => {
-        characterGlobal.characterName = event.target.value;
+        characterStats.characterName = event.target.value;
+        localStorage.setItem("characterStats", JSON.stringify(characterStats));
     }
     
     const savePlayerName = (event) => {
-        characterGlobal.playerName = event.target.value;
+        characterStats.playerName = event.target.value;
+        localStorage.setItem("characterStats", JSON.stringify(characterStats));
     }
 
     // Takes the saved stats and inputs them
     useEffect(() => {
-        document.getElementById("classOptions").value = characterGlobal.class;
-        document.getElementById("backgroundOptions").value = characterGlobal.background;
-        document.getElementById("characterNameInput").value = characterGlobal.characterName;
-        document.getElementById("raceOptions").value = characterGlobal.race;
-        document.getElementById("alignmentOptions").value = characterGlobal.alignment;
-        document.getElementById("playerNameInput").value = characterGlobal.playerName;
+        const loadedCharacterStats = JSON.parse(localStorage.getItem("characterStats"));
+        setCharacterStats(loadedCharacterStats);
+
+        document.getElementById("classOptions").value = loadedCharacterStats.class;
+        document.getElementById("backgroundOptions").value = loadedCharacterStats.background;
+        document.getElementById("characterNameInput").value = loadedCharacterStats.characterName;
+        document.getElementById("raceOptions").value = loadedCharacterStats.race;
+        document.getElementById("alignmentOptions").value = loadedCharacterStats.alignment;
+        document.getElementById("playerNameInput").value = loadedCharacterStats.playerName;
     }, []);
 
     return (

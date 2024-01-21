@@ -1,16 +1,14 @@
-import { useState, useEffect } from "react";
-import {characterGlobalState} from "./states/CharacterState";
-import {useRecoilState} from "recoil";
+import { useEffect, useState } from "react";
 
-// Sets default ability values and saves them to local storage
-let defaultAbilityValueList = {
-    Strength: "10",
-    Dexterity: "10",
-    Constitution: "10",
-    Intelligence: "10",
-    Wisdom: "10",
-    Charisma: "10"
-};
+// // Sets default ability values and saves them to local storage
+// const abilityValues = {
+//     Strength: "10",
+//     Dexterity: "10",
+//     Constitution: "10",
+//     Intelligence: "10",
+//     Wisdom: "10",
+//     Charisma: "10"
+// };
 
 // Ability names and abbreviations
 const abilityList = [
@@ -22,13 +20,18 @@ const abilityList = [
     { abilityAbbreviation: "CHA", abilityName: "Charisma" }
 ]
 
-//let parsedAbilityValues = JSON.parse(localStorage.getItem("abilityValues"));
+// localStorage.setItem("abilityValues", JSON.stringify(abilityValues))
 
-export const AbilityInput = ({initialAbilityValue, abilityAbbreviation, abilityName}) => {
-    const [characterGlobal, setCharacterGlobal] = useRecoilState(characterGlobalState);
-
+export default function AbilityTable() {
     // Allows the value of the input box to be tracked and changed
-    const [abilityValue, setAbilityValue] = useState(initialAbilityValue);
+    const [abilityValue, setAbilityValue] = useState({
+        Strength: 10,
+        Dexterity: 10,
+        Constitution: 10,
+        Intelligence: 10,
+        Wisdom: 10,
+        Charisma: 10    
+    });
 
     // Takes abilityValue and calculates abilityBonus
     const getAbilityBonus = (abilityValue) => {
@@ -39,114 +42,59 @@ export const AbilityInput = ({initialAbilityValue, abilityAbbreviation, abilityN
         return [ "(", abilityBonus, ")" ];
     };
 
-    const changeAbilityValue = (event) => {
-        // Changes the visible text ability value
-        setAbilityValue(event.target.value);
+    const saveStrength = (event) => {
+        abilityValue.Strength = event.target.value;
+        localStorage.setItem("abilityValues", JSON.stringify(abilityValue));
+        console.log(abilityValue)
+    };
 
-        // Changes the ability value in 
-        //abilityValues[abilityName] = event.target.value;
+    useEffect(() => {
+        console.log("reloaded")
+
+        const v = JSON.parse(localStorage.getItem("abilityValues"))
+        setAbilityValue(v)
+        console.log(abilityValue)
+
+        // const loadedAbilityValues = JSON.parse(localStorage.getItem("abilityValues"));
+        // setAbilityValue(loadedAbilityValues);
         
-        // Saves abilityValueList to local storage
-        //localStorage.setItem("abilityValues", JSON.stringify(abilityValues))
+        // document.getElementById("strength").value = loadedAbilityValues.Strength;
+        // document.getElementById("dexterity").value = loadedAbilityValues.Dexterity;
+        // document.getElementById("constitution").value = loadedAbilityValues.Constitution;
+        // document.getElementById("intelligence").value = loadedAbilityValues.Intelligence;
+        // document.getElementById("wisdom").value = loadedAbilityValues.Wisdom;
+        // document.getElementById("charisma").value = loadedAbilityValues.Charisma;
+    }, []);
 
-        const value = parseInt(event.target.value)
-        switch (abilityName) {
-            case "Strength":
-                characterGlobal.abilityStr.value = value;
-                break;
-            case "Dexterity":
-                characterGlobal.abilityDex.value = value;
-                break;
-            case "Constitution":
-                characterGlobal.abilityCha.value = value;
-                break;
-            case "Intelligence":
-                characterGlobal.abilityInt.value = value;
-                break;
-            case "Wisdom":
-                characterGlobal.abilityWis.value = value;
-                break;
-            case "Charisma":
-                characterGlobal.abilityCha.value = value;
-                break;
-        }
-    };    
-
+    // Component for the ability input boxes
     return (
-        <tr>
-        <td>
-            <p>
-            <b>{abilityAbbreviation}</b>
-            </p>
-        </td>
-        <td>
-            <input
-            type="number"
-            className="abilityInput"
-            id={abilityName}
-            value={abilityValue}
-            min={0}
-            max={20}
-            onChange={changeAbilityValue}
-            />
-        </td>
-        <td>
-            <p id={abilityName + "value" }>{ getAbilityBonus(abilityValue) }</p>
-        </td>
-        </tr>
-    )
-};
- 
-// Table which displays the ability input boxes
-export default function AbilityTable({characterClass}) {
-    const [characterGlobal, setCharacterGlobal] = useRecoilState(characterGlobalState);
-
-    const loadAbilityValues = () => {
-        const currentAbilityValues = localStorage.getItem("abilityValues");
-        if (currentAbilityValues != null) {
-            return JSON.parse(currentAbilityValues);
-        }
-        else {
-            return defaultAbilityValueList;
-        }
-    }
-
-    const getAbilityValue = (abilityName) => {
-        switch (abilityName) {
-            case "Strength":
-                return characterGlobal.abilityStr.value;
-            case "Dexterity":
-                return characterGlobal.abilityDex.value;
-            case "Constitution":
-                return characterGlobal.abilityCha.value;
-            case "Intelligence":
-                return characterGlobal.abilityInt.value;
-            case "Wisdom":
-                return characterGlobal.abilityWis.value;
-            case "Charisma":
-                return characterGlobal.abilityCha.value;
-        }
-    }
-
-    return (
-        <div id="abilityDiv" className="tabContent">
-            <div>{characterClass}</div>
+        <div id="abilityDiv" class="tabContent">
             <table className="abilityTable">
-                <tbody>
-                    <tr>
-                        {/* Maps the values in abilityList to the abilityInput component */}
-                        <td>
-                           {abilityList.map((ability) => 
-                                (<AbilityInput
-                                abilityAbbreviation={ability.abilityAbbreviation}
-                                abilityName={ability.abilityName}
-                                initialAbilityValue={getAbilityValue(ability.abilityName)}
-                                />)
-                           )}
-                        </td>
-                    </tr>
-                </tbody>
+            <tbody>
+                <tr>
+                <td>
+                    <p>
+                    <b>STR</b>
+                    </p>
+                </td>
+                <td>
+                    <input
+                    type="number"
+                    className="abilityInput"
+                    id="strength"
+                    value={parseInt(abilityValue.Strength)}
+                    min={0}
+                    max={20}
+                    onChange={saveStrength}
+                    />
+                </td>
+                <td>
+                    <p id="strengthNumber">{ getAbilityBonus(10) }</p>
+                </td>
+                </tr>
+            </tbody>
             </table>
         </div>
+
     )
 };
